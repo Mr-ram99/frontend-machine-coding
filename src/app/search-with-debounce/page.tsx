@@ -7,18 +7,28 @@ export default function SearchWithDebounce() {
   const [result, setResult] = useState<string[]>(cars);
   const [searchString, setSearchString] = useState<string>("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchString(e.target.value);
-    const filteredCars = cars.filter((car) =>
-      car.toLowerCase().includes(searchString)
-    );
-    setResult(filteredCars);
+  const debounce = (func: any, timeout = 500) => {
+    let timer: any;
+    return (...args: any) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func(...args);
+      }, timeout);
+    };
   };
+  const handleSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+    const filteredCars = cars.filter((car) =>
+      car.toLowerCase().includes(e.target.value)
+    );
+    setSearchString(e.target.value);
+    setResult(filteredCars);
+  }, 500);
+
   return (
     <main className="flex min-h-screen flex-col p-12 items-center">
       <h2 className="text-center text-2xl">Search with Debounce</h2>
       <div className="flex flex-col items-center m-2 p-5">
-        <input type="text" onChange={handleChange} className="border m-12" />
+        <input type="text" onChange={handleSearch} className="border m-12" />
         <div>search result for: {searchString}</div>
       </div>
 
