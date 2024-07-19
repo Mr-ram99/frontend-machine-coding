@@ -1,10 +1,11 @@
 "use client";
 
-import { use, useState } from "react";
+import { useState } from "react";
 import { cars } from "@/app/lib/MOCK_DATA";
 
 export default function SearchWithDebounce() {
   const [result, setResult] = useState<string[]>(cars);
+  const [timer, setTimer] = useState<number>(500);
   const [searchString, setSearchString] = useState<string>("");
 
   const debounce = (func: any, timeout = 500) => {
@@ -22,20 +23,40 @@ export default function SearchWithDebounce() {
     );
     setSearchString(e.target.value);
     setResult(filteredCars);
-  }, 500);
+  }, timer);
 
   return (
     <main className="flex min-h-screen flex-col p-12 items-center">
       <h2 className="text-center text-2xl">Search with Debounce</h2>
-      <div className="flex flex-col items-center m-2 p-5">
-        <input type="text" onChange={handleSearch} className="border m-12" />
-        <div>search result for: {searchString}</div>
+      <div className="flex items-center m-2 p-5">
+        <label htmlFor="searchtext">Search Text</label>
+        <input
+          type="text"
+          id="searchtext"
+          onChange={handleSearch}
+          className="border m-5 bg-slate-100 p-2"
+          placeholder="Search text"
+        />
+        <label htmlFor="timeout">Timeout (in ms)</label>
+        <input
+          type="number"
+          id="timeout"
+          onChange={(e) => setTimer(Number(e.target.value))}
+          className="border m-5 bg-slate-100 p-2"
+          placeholder="Timeout(in ms)"
+          defaultValue={500}
+        />
       </div>
 
-      <div className="w-1/3 flex-col items-start border-2 p-5">
-        {result.map((car, index) => {
-          return <p key={index}>{car}</p>;
-        })}
+      <div>Search result for: {searchString}</div>
+      <div className="min-w-60 max-w-80 flex-col items-start border-2 bg-slate-100 p-5 max-h-80 overflow-x-scroll">
+        {result.length > 0 ? (
+          result.map((car, index) => {
+            return <p key={index}>{car}</p>;
+          })
+        ) : (
+          <p>No record found</p>
+        )}
       </div>
     </main>
   );
