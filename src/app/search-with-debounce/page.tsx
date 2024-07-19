@@ -26,8 +26,15 @@ export default function SearchWithDebounce() {
   }, timer);
 
   return (
-    <main className="flex min-h-screen flex-col p-12 items-center">
+    <main className="flex flex-col p-5 items-center">
       <h2 className="text-center text-2xl">Search with Debounce</h2>
+      <a
+        className="text-blue-500 text-normal underline"
+        href="https://github.com/Mr-ram99/frontend-machine-coding/blob/main/src/app/search-with-debounce/page.tsx"
+        target="_blank"
+      >
+        Code
+      </a>
       <div className="flex items-center m-2 p-5">
         <label htmlFor="searchtext">Search Text</label>
         <input
@@ -49,7 +56,7 @@ export default function SearchWithDebounce() {
       </div>
 
       <div>Search result for: {searchString}</div>
-      <div className="min-w-60 max-w-80 flex-col items-start border-2 bg-slate-100 p-5 max-h-80 overflow-x-scroll">
+      <div className="min-w-60 max-w-80 flex-col items-start border-2 bg-slate-100 px-4 py-2 max-h-80 overflow-x-scroll">
         {result.length > 0 ? (
           result.map((car, index) => {
             return <p key={index}>{car}</p>;
