@@ -12,7 +12,13 @@ export default function Home() {
           href="/search-with-debounce"
           className="px-3 py-2 bg-gradient-to-l from-slate-100 via-purple-100 to-pink-100"
         >
-          search with debounce
+          Search with Debounce
+        </Link>
+        <Link
+          href="/lazy-loading"
+          className="px-3 py-2 bg-gradient-to-l from-slate-100 via-purple-100 to-pink-100"
+        >
+          Lazy Loading
         </Link>
       </div>
     </main>
