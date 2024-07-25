@@ -1,8 +1,10 @@
 "use client";
 
+import debounce from "lodash/debounce";
 import { useEffect, useState } from "react";
 
 interface User {
+  id: string;
   firstName: string;
   lastName: string;
 }
@@ -26,7 +28,7 @@ export default function LazyLoading() {
     }
   };
 
-  const handleScroll = async (e: any) => {
+  const handleScroll = debounce(async (e: any) => {
     const { target } = e;
     const scrollBottom =
       target.scrollHeight - (target.scrollTop + target.clientHeight);
@@ -45,13 +47,13 @@ export default function LazyLoading() {
         console.log(error);
       }
     }
-  };
+  }, 300);
 
   useEffect(() => {
     const initializeUsers = async () => {
       const initialUsers = await fetchUsers();
       setUsers(initialUsers);
-      setPageNumber((prev) => prev + 1);
+      setPageNumber(1);
     };
 
     initializeUsers();
@@ -73,7 +75,11 @@ export default function LazyLoading() {
       >
         {users.length > 0 ? (
           users.map((user, index) => {
-            return <p key={index}>{user.firstName}</p>;
+            return (
+              <p key={index}>
+                {user.id}. {user.firstName}
+              </p>
+            );
           })
         ) : (
           <p>No records</p>
